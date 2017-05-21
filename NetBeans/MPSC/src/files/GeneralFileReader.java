@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Part of a program to implement a Multi-Party Secure Computing protocol.
  */
 package files;
 
@@ -13,7 +11,7 @@ import java.util.List;
 
 /**
  * Provides a file reading utility class to read from an input file, specified 
- *  by its filename, and store the resulting data in a String array.  
+ * by its filename, and store the resulting data in a String array.  
  * 
  * @author Jonathan McFadden (mcfaddja@uw.edu)
  * @version 0.1
@@ -45,7 +43,7 @@ public class GeneralFileReader {
     
     /**
      * Utility method to return the filename currently specified for use by 
-     *  the reader.
+     * the reader.
      * 
      * @return myFileName
      */
@@ -53,7 +51,10 @@ public class GeneralFileReader {
         return myFileName;
     } // END getFileName() METHOD
     
-    
+    /**
+     * Method to read in the file specified by the filename passed to the
+     * constructor.
+     */
     public void readIt() {
         try {
             final FileReader aReader;
@@ -73,7 +74,13 @@ public class GeneralFileReader {
         } // END try/catch BLOCK
     } // END readIt() METHOD
     
-    
+    /**
+     * Method to return the data read from the file by the readIt() method, this
+     * method requires that the readIt() method is called first.
+     * 
+     * @return aStrings String array created from the ArrayList of Strings that
+     *         contains the input read from the file.
+     */
     public String[] getIt() {
         String[] aStrings = new String[1];
         aStrings = myInput.toArray(aStrings);
@@ -81,13 +88,19 @@ public class GeneralFileReader {
         return aStrings;
     } // END getIt() METHOD
     
-    
+    /**
+     * Method to both read in the file specified by the file name passed to the 
+     * constructor AND then return the data read from the file.  As such, this
+     * method does not require that the readIt() method be called first.
+     * 
+     * @return aStrings String array created from the ArrayList of Strings that
+     *         contains the input read from the file.
+     */
     public String[] readItGetIt() {
         this.readIt();
         
         return this.getIt();
-    }
+    } // END readItGetIt() METHOD
     
     
-    
-}
+} // END GeneralFileReader.java CLASS
