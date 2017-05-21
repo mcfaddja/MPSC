@@ -74,4 +74,20 @@ public class GeneralFileReader {
     } // END readIt() METHOD
     
     
+    public String[] getIt() {
+        String[] aStrings = new String[1];
+        aStrings = myInput.toArray(aStrings);
+        
+        return aStrings;
+    } // END getIt() METHOD
+    
+    
+    public String[] readItGetIt() {
+        this.readIt();
+        
+        return this.getIt();
+    }
+    
+    
+    
 }
