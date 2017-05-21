@@ -11,7 +11,7 @@ import java.math.BigInteger;
  *
  * @author jamster
  */
-public class PlayInformationFileInterpreter {
+public class PlayerInformationFileInterpreter {
     
     /** String with the name of the file to be read and interpreted. */
     private final String myFileName;
@@ -45,7 +45,7 @@ public class PlayInformationFileInterpreter {
     
     
     
-    public PlayInformationFileInterpreter(final String theFileName) {
+    public PlayerInformationFileInterpreter(final String theFileName) {
         myFileName = theFileName;
         
         myGenReader = new GeneralFileReader(myFileName);
