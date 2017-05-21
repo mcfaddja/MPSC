@@ -5,6 +5,9 @@
  */
 package files;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,16 +51,27 @@ public class GeneralFileReader {
      */
     public String getFileName() {
         return myFileName;
-    }
+    } // END getFileName() METHOD
     
     
-    /**
-     * Utility method to change the filename currently specified for use by 
-     *  the reader.
-     */
-    public void setFileName(final String theFileName) {
-        myFileName = theFileName;
-    }
+    public void readIt() {
+        try {
+            final FileReader aReader;
+            aReader = new FileReader(myFileName);
+            final BufferedReader in = new BufferedReader(aReader);
+            
+            String line = in.readLine();
+            while (line != null) {
+                myInput.add(line);
+                line = in.readLine();
+            } // END while LOOP
+            
+            in.close();
+            aReader.close();
+        } catch (final IOException theException) {
+            System.out.println("IO input error" + theException.getMessage());
+        } // END try/catch BLOCK
+    } // END readIt() METHOD
     
     
 }
