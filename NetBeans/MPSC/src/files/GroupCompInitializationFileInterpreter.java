@@ -7,9 +7,12 @@ package files;
 
 import java.math.BigInteger;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.security.KeyFactory;
 import java.security.PublicKey;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -22,6 +25,9 @@ public class GroupCompInitializationFileInterpreter {
      * information starts in the input file.
      */
     private static final int LIST_START = 4;
+    
+    /** String constant for the IP address error message. */
+    private static final String IP_ERR = "IP Address Error at index ";
     
     
     
@@ -101,25 +107,43 @@ public class GroupCompInitializationFileInterpreter {
         myGrpSize = Integer.parseInt(myRawData[3]);
         
         loadPlyrData2D();
-    }
+        loadPlyrUIDsNaddrs();
+        loadPlyrKeysTasks();
+    } // END readAndParseThem() PRIVATE HELPER METHOD
 
     private void loadPlyrData2D() {
-//        final int finInd = myRawData.length - 1;
-        
-//        int i = LIST_START;
-//        while (i < finInd) {
-//            myPlyrsNinfo = new String[myGrpSize][3];
-//        }
-
         myPlyrsNinfo = new String[myGrpSize][3];
+        
         for (int i = 0; i < myGrpSize; i++) {
             for (int j = 0; j < 3; j++) {
                 myPlyrsNinfo[i][j] = myRawData[LIST_START + i*3 + j];
-            }
-//            myPlyrsNinfo[i][0] = myRawData[LIST_START + i*3];
-//            myPlyrsNinfo[i][1] = myRawData[LIST_START + i*3];
-        }
+            } // END for LOOP (INDEX j)
+        } // END for LOOP (INDEX i)
+    } // END loadPlyrData2D() PRIVATE HELPER METHOD
+
+    private void loadPlyrUIDsNaddrs() {
+        myPlyrsUIDs = new BigInteger[myGrpSize];
+        myPlyrsAddrs = new InetAddress[myGrpSize];
+        
+        for (int i = 0; i < myGrpSize; i++) {
+            myPlyrsUIDs[i] = new BigInteger(myPlyrsNinfo[i][0]);
+            
+            try {
+                myPlyrsAddrs[i] = InetAddress.getByName(myPlyrsNinfo[i][1]);
+            } catch (UnknownHostException e) {
+                System.out.println(IP_ERR + i + e.getMessage());
+            } // END try/catch BLOCK
+        } // END for LOOP
+    } // END loadPlyrUIDsNaddrs() PRIVATE HELPER METHOD
+
+    private void loadPlyrKeysTasks() {
+        
     }
+    
+    
+    
+    
+    
     
     
 }
