@@ -75,8 +75,10 @@ public class PlayerInformationFileInterpreter {
      * code readable.
      */
     private void readAndParseThem() {
-        final long tempLong = Integer.parseInt(myRawData[0]);
-        myUID = BigInteger.valueOf(tempLong);
+        //final long tempLong = Integer.parseInt(myRawData[0]);
+        //myUID = BigInteger.valueOf(tempLong);
+        final String temp = myRawData[0];
+        myUID = new BigInteger(temp);
         
         myPubKeyFileName = myRawData[1];
         myPubKeyAlgo = myRawData[2];
