@@ -98,6 +98,23 @@ public class GroupCompInitializationFileInterpreter {
         readAndParseThem();
     }
 
+    
+    /**
+     * Private helper method for the CONSTRUCTOR.  This method is called 
+     *  directly by the CONSTRUCTOR so that this method can import the String 
+     *  representation of the GROUP-FUNCTION & the DATA-TYPE used by the GROUP-
+     *  -FUNCTION into their own String variables, import and parse from a  
+     *  String to a BigInteger the GROUP-COMPUTATION-INITIALIZATION-KEY into 
+     *  its own BigInteger variable, import and parse from a String to an int 
+     *  the GROUP-SIZE into its own integer(int) variable, and then itself call 
+     *  a series of additional private helper methods for performing tasks 
+     *  related to the importation, parsing, and storage of raw input file 
+     *  data, UIDs, and IP addresses of the players.  All input data (or raw 
+     *  data) used by this method, or any of the helper methods it calls, is 
+     *  obtained from the raw file data read by the CONSTRUCTOR during 
+     *  initialization.  The private helpers called by this method are the 
+     *  loadPlyrData2D(), loadPlyrUIDs(), and loadPlyrAddrs().
+     */
     private void readAndParseThem() {
         myFuncStr = myRawData[0];
         myFuncDataType = myRawData[1];
@@ -108,8 +125,8 @@ public class GroupCompInitializationFileInterpreter {
         myGrpSize = Integer.parseInt(myRawData[3]);
         
         loadPlyrData2D();
-        loadPlyrUIDsNaddrs();
-        loadPlyrKeysTasks();
+        loadPlyrUIDs();
+        loadPlyrAddrs();
     } // END readAndParseThem() PRIVATE HELPER METHOD
 
     /**
@@ -136,26 +153,51 @@ public class GroupCompInitializationFileInterpreter {
     /**
      * Private helper method for the CONSTRUCTOR.  This method is called by 
      *  readAndParseThem(), a private helper method which is directly called by 
-     *  the CONSTRUCTOR.  This method, loadPlyrUIDsNaddrs(), 
+     *  the CONSTRUCTOR.  This method, loadPlyrUIDs(), imports the data on the 
+     *  UIDs of players into an array specifically for holding player UIDs. 
+     *  The data is imported from the array loaded by the loadPlyrData2D() 
+     *  private helper method parsed to the BigInteger data type, and then 
+     *  loaded into the array specifically for holding player UIDs, which is an 
+     *  array of BigIntegers.  This method is indirectly called by the 
+     *  CONSTRUCTOR, as this method is called directly by the runAndParseThem() 
+     *  private helper method which the CONSTRUCTOR directly calls.
      */
-    private void loadPlyrUIDsNaddrs() {
+    private void loadPlyrUIDs() {
         myPlyrsUIDs = new BigInteger[myGrpSize];
-        myPlyrsAddrs = new InetAddress[myGrpSize];
         
         for (int i = 0; i < myGrpSize; i++) {
             myPlyrsUIDs[i] = new BigInteger(myPlyrsNinfo[i][0]);
+        } // END for LOOP
+    } // END loadPlyrUIDs() PRIVATE HELPER METHOD
+    
+    /**
+     * Private helper method for the CONSTRUCTOR.  This method is called by 
+     *  readAndParseThem(), a private helper method which is directly called by 
+     *  the CONSTRUCTOR.  This method, loadPlyrAddrs(), imports the data on the 
+     *  IP addresses of players into an array specifically for holding player 
+     *  IP addresses.  The data is imported from the array loaded by the 
+     *  loadPlyrData2D() private helper method parsed to the InetAddress data 
+     *  type, and then loaded into the array specifically for holding player 
+     *  IP addresses, which is an array of InetAddresses.  This method is 
+     *  indirectly called by the CONSTRUCTOR, as this method is called directly 
+     *  by the runAndParseThem() private helper method which the CONSTRUCTOR 
+     *  directly calls.
+     */
+    private void loadPlyrAddrs() {
+        myPlyrsAddrs = new InetAddress[myGrpSize];
+        
+        for (int i = 0; i < myGrpSize; i++) {
             
             try {
                 myPlyrsAddrs[i] = InetAddress.getByName(myPlyrsNinfo[i][1]);
             } catch (UnknownHostException e) {
                 System.out.println(IP_ERR + i + e.getMessage());
             } // END try/catch BLOCK
+            
         } // END for LOOP
-    } // END loadPlyrUIDsNaddrs() PRIVATE HELPER METHOD
+    } // END loadPlyrAddrs() PRIVATE HELPER METHOD
 
-    private void loadPlyrKeysTasks() {
-        
-    }
+    
     
     
     
