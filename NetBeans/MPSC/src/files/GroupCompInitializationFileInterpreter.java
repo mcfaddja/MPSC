@@ -22,7 +22,7 @@ public class GroupCompInitializationFileInterpreter {
     
     /** 
      * Integer constant representing the array index where the list of player 
-     * information starts in the input file.
+     *  information starts in the input file.
      */
     private static final int LIST_START = 4;
     
@@ -51,8 +51,8 @@ public class GroupCompInitializationFileInterpreter {
     
     /** 
      * A 2D String array holding the initial interpretation of values in the 
-     * list of UIDs, IP addressees, and Public Keys for every player in the 
-     * group.
+     *  list of UIDs, IP addressees, and Public Keys for every player in the 
+     *  group.
      */
     private String[][] myPlyrsNinfo;
     
@@ -62,14 +62,15 @@ public class GroupCompInitializationFileInterpreter {
     /** Array of InetAddress object holding the IP addresses of all players. */
     private InetAddress[] myPlyrsAddrs;
     
-    /** An ArrayList of byte arrays to help import, convert, and store the 
-     * public keys of all the players as instances of the "PublicKey" class.
+    /** 
+     * An ArrayList of byte arrays to help import, convert, and store the 
+     *  public keys of all the players as instances of the "PublicKey" class.
      */
     private List<byte[]> myPlyrPubKeyBytes;
     
     /** 
      * Array of KeyFactory objects to help import, convert, and store the 
-     * public keys of all the players as instances of the "PublicKey" class.
+     *  public keys of all the players as instances of the "PublicKey" class.
      */
     private KeyFactory[] myKeyFactories;
     
@@ -111,6 +112,17 @@ public class GroupCompInitializationFileInterpreter {
         loadPlyrKeysTasks();
     } // END readAndParseThem() PRIVATE HELPER METHOD
 
+    /**
+     * Private helper method for the CONSTRUCTOR.  This method is called by 
+     *  readAndParseThem(), a private helper method which is directly called by 
+     *  the CONSTRUCTOR.  This method, loadPlyrData2D(), parses data from the 
+     *  raw input data into a 2D array of Strings, where the raw inport data is 
+     *  read from the input file and stored in the myRawData String arrat by 
+     *  the CONSTRUCTOR during initialization.  The 2D array of Strings parsed 
+     *  by this file holds the initial interpretation of values in the 
+     *  list of UIDs, IP addressees, and Public Keys for every player in the 
+     *  group.
+     */
     private void loadPlyrData2D() {
         myPlyrsNinfo = new String[myGrpSize][3];
         
@@ -121,6 +133,11 @@ public class GroupCompInitializationFileInterpreter {
         } // END for LOOP (INDEX i)
     } // END loadPlyrData2D() PRIVATE HELPER METHOD
 
+    /**
+     * Private helper method for the CONSTRUCTOR.  This method is called by 
+     *  readAndParseThem(), a private helper method which is directly called by 
+     *  the CONSTRUCTOR.  This method, loadPlyrUIDsNaddrs(), 
+     */
     private void loadPlyrUIDsNaddrs() {
         myPlyrsUIDs = new BigInteger[myGrpSize];
         myPlyrsAddrs = new InetAddress[myGrpSize];
