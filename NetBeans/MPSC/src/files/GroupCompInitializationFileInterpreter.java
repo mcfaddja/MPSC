@@ -203,11 +203,25 @@ public class GroupCompInitializationFileInterpreter {
     } // END loadPlyrAddrs() PRIVATE HELPER METHOD
 
   // PRIVATE HELPERS RELATED TO PLAYER KEYS
+    /**
+     * Private helper method for the CONSTRUCTOR.  This method is called 
+     *  directly by the CONSTRUCTOR so that this method itself can call a 
+     *  series of additional private helper methods for performing tasks 
+     *  related to the importation, generation, and storage of cryptographic 
+     *  keys for each player.
+     */
     private void loadPlyrKeysTasks() {
         makeByteArrays();
         makePubKeys();
     } // END loadPlyrKeysTasks() PRIVATE METHOD
     
+    /**
+     * Private helper method for the CONSTRUCTOR.  This method is called by 
+     *  loadPlyrKeysTasks(), a private helper method which is directly called 
+     *  by the CONSTRUCTOR.  This method, makeByteArrays(), gets the Strings 
+     *  holding the encoded public keys for each player, converts the Strings 
+     *  to byte arrays and stores them in a array of byte arrays for later use.
+     */
     private void makeByteArrays() {
         myPlyrPubKeyBytes = new ArrayList<byte[]>();
         
@@ -216,6 +230,15 @@ public class GroupCompInitializationFileInterpreter {
         }
     } // END makeByteArrays() PRIVATE HELPER METHOD
     
+    /**
+     * Private helper method for the CONSTRUCTOR.  This method is called by 
+     *  loadPlyrKeysTasks(), a private helper method which is directly called 
+     *  by the CONSTRUCTOR.  This method, makePubKeys(), uses the array of byte 
+     *  arrays holding the encoded public keys for the players to generate 
+     *  PublicKey and Signature objects for each of the players, storing them 
+     *  in separate arrays with one for PublicKey objects and the other for 
+     *  Signature objects.
+     */
     private void makePubKeys() {
         // Get size of byte arrays with encoded public keys
         int tempSize = myPlyrPubKeyBytes.get(0).length;
