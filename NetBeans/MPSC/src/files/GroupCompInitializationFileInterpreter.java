@@ -98,6 +98,7 @@ public class GroupCompInitializationFileInterpreter {
         
         readAndParseThem();
         loadPlyrKeysTasks();
+        hashTaskRunner();
     }
     
     
@@ -287,6 +288,16 @@ public class GroupCompInitializationFileInterpreter {
         } // END SECOND for LOOP IN METHOD
         
     } // END makePubKeys() PRIVATE HELPER METHOD
+    
+  // PRIVATE HELPERS FOR HASHES
+    private void hashTaskRunner() {
+        importHashAlgo();
+    }
+    
+    private void importHashAlgo() {
+        int tempCnt = 4 + 3 * myGrpSize;
+        myHashAlgo = myRawData[tempCnt];
+    }
     
     
     
