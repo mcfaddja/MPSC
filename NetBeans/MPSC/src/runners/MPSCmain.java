@@ -9,7 +9,7 @@ package runners;
  *
  * @author jamster
  */
-public class mainMPSC {
+public class MPSCmain {
 
     /**
      * @param args the command line arguments
