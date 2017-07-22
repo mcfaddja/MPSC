@@ -10,6 +10,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
+import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.security.Signature;
@@ -83,6 +84,15 @@ public class GroupCompInitializationFileInterpreter {
     
     /** String holding the hash read in from the file. */
     private String myImportedHash;
+    
+    /** Byte Array holding the hash read in from the file. */
+    private byte[] myImportedHashBytes;
+    
+//    /** MessageDigest Object holding the hash read in from the file. */
+//    private MessageDigest myImportedHashMsgDigest;
+    
+    /** Byte Array holding the hash read in from the file. */
+    private byte[] myComputedHashBytes;
     
     /** Instance of the GeneralFileReader class to read the raw file data. */
     final GeneralFileReader myGenReader;
@@ -292,14 +302,21 @@ public class GroupCompInitializationFileInterpreter {
   // PRIVATE HELPERS FOR HASHES
     private void hashTaskRunner() {
         importHashAlgo();
+        importGivenHash();
     }
     
     private void importHashAlgo() {
         int tempCnt = 4 + 3 * myGrpSize;
+        
         myHashAlgo = myRawData[tempCnt];
     }
     
-    
+    private void importGivenHash() {
+        int tempCnt = 4 + 3 * myGrpSize;
+        myImportedHash = myRawData[tempCnt + 1];
+        
+        myImportedHashBytes = myImportedHash.getBytes();
+    }
     
     
     
