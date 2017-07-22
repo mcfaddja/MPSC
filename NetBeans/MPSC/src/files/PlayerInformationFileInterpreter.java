@@ -15,7 +15,7 @@ import java.math.BigInteger;
  * format for a "Player Information File".
  * 
  * @author Jonathan McFadden (mcfaddja@uw.edu)
- * @version 0.1
+ * @version 0.1.1
  */
 public class PlayerInformationFileInterpreter {
     

@@ -1,7 +1,5 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Part of a program to implement a Multi-Party Secure Computing protocol.
  */
 package files;
 
@@ -19,9 +17,16 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
 
 /**
- *
- * @author jamster
- * @version 0.1
+ * Utility class which creates a reader and interpreter to read and then 
+ * interpret the data from a file whose filename is passed via the 
+ * constructor.  This class calls methods from the 'GeneralFileReader' to 
+ * carry out the reading of the file into a string array.  Once the data is 
+ * in the string array, this class will interpret the data from the string 
+ * array based on the assumption that the read file follows the specified 
+ * format for a "Group Computation Initialization Information File".
+ * 
+ * @author Jonathan McFadden (mcfaddja@uw.edu)
+ * @version 0.1.1
  */
 public class GroupCompInitializationFileInterpreter {
     
