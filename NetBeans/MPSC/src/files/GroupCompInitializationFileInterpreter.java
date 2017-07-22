@@ -100,6 +100,13 @@ public class GroupCompInitializationFileInterpreter {
     
     
 // CONSTRUCTOR(S)
+    /**
+     * Creates a file reader specific to importing data for initializing the 
+     *  Group Computation from the specified file.
+     * 
+     * @param theFileName Name of the file holding the data to be imported for 
+     *  use in initializing the Group Computation.
+     */
     public GroupCompInitializationFileInterpreter(final String theFileName) {
         myFileName = theFileName;
         
