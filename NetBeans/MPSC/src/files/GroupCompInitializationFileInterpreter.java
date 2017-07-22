@@ -300,6 +300,13 @@ public class GroupCompInitializationFileInterpreter {
     } // END makePubKeys() PRIVATE HELPER METHOD
     
   // PRIVATE HELPERS FOR HASHES
+    /**
+     * Private helper method for the CONSTRUCTOR.  This method is called 
+     *  directly by the CONSTRUCTOR so that this method itself can call a 
+     *  series of additional private helper methods for performing tasks 
+     *  related to the importation and conversion of the hash of the file 
+     *  supplied by the file.
+     */
     private void hashTaskRunner() {
         importHashAlgo();
         importGivenHash();
