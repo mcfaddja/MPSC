@@ -8,8 +8,13 @@ package files;
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.security.InvalidKeyException;
 import java.security.KeyFactory;
+import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
+import java.security.Signature;
+import java.security.spec.InvalidKeySpecException;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -67,16 +72,19 @@ public class GroupCompInitializationFileInterpreter {
      * An ArrayList of byte arrays to help import, convert, and store the 
      *  public keys of all the players as instances of the "PublicKey" class.
      */
-    private List<byte[]> myPlyrPubKeyBytes;
+    private ArrayList<byte[]> myPlyrPubKeyBytes;
     
-    /** 
-     * Array of KeyFactory objects to help import, convert, and store the 
-     *  public keys of all the players as instances of the "PublicKey" class.
-     */
-    private KeyFactory[] myKeyFactories;
+//    /** 
+//     * Array of KeyFactory objects to help import, convert, and store the 
+//     *  public keys of all the players as instances of the "PublicKey" class.
+//     */
+//    private KeyFactory[] myKeyFactories;
     
     /** Array of Public Key objects holding the public keys of every player. */
     private PublicKey[] myPlyrPubKeys;
+    
+    /** Array of Signature objects holding the signatures of every player. */
+    private Signature[] myPlyrSigs;
     
     /** String with the Algorithm used to generate the hash of the file. */
     private String myHashAlgo;
@@ -207,16 +215,67 @@ public class GroupCompInitializationFileInterpreter {
      *  keys for each player.
      */
     private void loadPlyrKeysTasks() {
-        createByteArrays();
-    }
+        makeByteArrays();
+        makePubKeys();
+    } // END loadPlyrKeysTasks() PRIVATE METHOD
     
-    private void createByteArrays() {
+    private void makeByteArrays() {
         myPlyrPubKeyBytes = new ArrayList<byte[]>();
         
         for (int i = 0; i < myGrpSize; i++) {
             myPlyrPubKeyBytes.add(myPlyrsNinfo[i][2].getBytes());
         }
-    }
+    } // END makeByteArrays() PRIVATE HELPER METHOD
+    
+    
+    private void makePubKeys() {
+        // Get size of byte arrays with encoded public keys
+        int tempSize = myPlyrPubKeyBytes.get(0).length;
+        
+        // Create a 2D byte array to hold the keys of all players [plyr][key]
+        byte[][] tempByteKeyArray = new byte[myGrpSize][tempSize];
+        // Covert imported player encoded public keys from Strings 
+        //      and load into "tempByteKeyArray" for later use and conversion.
+        for (int i = 0; i < myGrpSize; i++) {
+            tempByteKeyArray[i] = myPlyrPubKeyBytes.get(i);
+        } // END FIRST for LOOP OF METHOD
+        
+        // Create arrays for the public keys and signatures of each player
+        myPlyrPubKeys = new PublicKey[myGrpSize];
+        myPlyrSigs = new Signature[myGrpSize];
+        // Load the arrays for the public keys and signatures of each player
+        for (int i = 0; i < myGrpSize; i++) {
+            // Temporary KeyFactories and X509EncodedKeySpec variables
+            KeyFactory tempKeyFactory;
+            X509EncodedKeySpec tempKeySpec;
+            
+            try {
+                tempKeyFactory = KeyFactory.getInstance("RSA");
+                tempKeySpec = new X509EncodedKeySpec(tempByteKeyArray[i]);
+                
+                myPlyrPubKeys[i] = tempKeyFactory.generatePublic(tempKeySpec);
+                myPlyrSigs[i] = Signature.getInstance("RSA");
+                myPlyrSigs[i].initVerify(myPlyrPubKeys[i]);
+            } // END try BLOCK
+            catch (NoSuchAlgorithmException theException1) {
+                System.out.println("No Such Algrogristm Exception for a "
+                                        + "CRYPTOGRAPHIC ALGORITHM " 
+                                        + theException1.getMessage());
+            } // END THIRD catch BLOCK
+            catch (InvalidKeySpecException theException2) {
+                System.out.println("Invaide Key Spec Exception from a "
+                                        + "X509EncodedKeySpec KEY SPEC " 
+                                        + theException2.getMessage());
+            } // END SECOND catch BLOCK
+            catch (InvalidKeyException theException3) {
+                System.out.println("Invaide Key Exception from a "
+                                        + "PUBLIC KEY KEY " 
+                                        + theException3.getMessage());
+            } // END THIRD catch BLOCK
+            // END try/catch BLOCK
+        } // END SECOND for LOOP IN METHOD
+        
+    } // END makePubKeys() PRIVATE HELPER METHOD
     
     
     
