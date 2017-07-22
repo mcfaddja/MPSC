@@ -392,7 +392,69 @@ public class GroupCompInitializationFileInterpreter {
         } // END try/catch BLOCK
         
     } // END computeFileHash() PRIVATE HELPER METHOD
-
+    
+    
+    
+// PUBLIC METHODS
+  
+  // GETTERS
+    /**
+     * Getter for the name of the imported file.
+     * 
+     * @return myFileName
+     */
+    public String getFileName() {
+        return myFileName;
+    }
+    
+    /**
+     * Getter for the String representation of the function to be computed.
+     * 
+     * @return myFuncStr
+     */
+    public String getFuncStr() {
+        return myFuncStr;
+    }
+    
+    /**
+     * Getter for the String representation of the data-type used by the function 
+     *  to be computed.
+     *  
+     * @return myFuncDataType
+     */
+    public String getFunctDataType() {
+        return myFuncDataType;
+    }
+    
+    /**
+     * Getter for the BigInteger holding the initialization key for the group 
+     *  computation.
+     *  
+     * @return myGrpCompInitKey
+     */
+    public BigInteger getGrpCompInitKey() {
+        return myGrpCompInitKey;
+    }
+    
+    /**
+     * Getter for the String holding the name of the algorithm used to compute the 
+     *  hash of the imported data file.
+     *  
+     * @return myHashAlgo
+     */
+    public String getHashAlgo() {
+        return myHashAlgo;
+    }
+    
+    /**
+     * Getter for the boolean holding the result of comparing the computed and 
+     *  imported hashes.
+     *  
+     * @return myTest
+     */
+    public boolean getHashCompare() {
+        return myTest;
+    }
     
     
     
