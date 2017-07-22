@@ -14,7 +14,7 @@ import java.util.List;
  * by its filename, and store the resulting data in a String array.  
  * 
  * @author Jonathan McFadden (mcfaddja@uw.edu)
- * @version 0.1
+ * @version 0.1.1
  */
 public class GeneralFileReader {
     

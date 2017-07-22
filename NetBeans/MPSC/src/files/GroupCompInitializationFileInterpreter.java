@@ -21,6 +21,7 @@ import java.util.ArrayList;
 /**
  *
  * @author jamster
+ * @version 0.1
  */
 public class GroupCompInitializationFileInterpreter {
     
@@ -100,11 +101,14 @@ public class GroupCompInitializationFileInterpreter {
     /** Byte Array holding the hash read in from the file. */
     private byte[] myImportedHashBytes;
     
-//    /** MessageDigest Object holding the hash read in from the file. */
-//    private MessageDigest myImportedHashMsgDigest;
+    /** MessageDigest Object holding the hash read in from the file. */
+    private MessageDigest myImportedHashMsgDigest;
     
     /** Byte Array holding the hash read in from the file. */
     private byte[] myComputedHashBytes;
+    
+    /** Boolean holding the result of comparing the imported and computed hashes. */
+    private boolean myTest;
     
     
     
@@ -297,8 +301,7 @@ public class GroupCompInitializationFileInterpreter {
                 myPlyrSigs[i] = Signature.getInstance(RSA_NAME);
                 myPlyrSigs[i].initVerify(myPlyrPubKeys[i]);
             } catch (final NoSuchAlgorithmException exception1) {
-                System.out.println("No Such Algrogristm Exception for a "
-                                        + "CRYPTOGRAPHIC ALGORITHM " 
+                System.out.println("No Such Algrogristm Exception for "
                                         + exception1.getMessage());
             } catch (final InvalidKeySpecException exception2) {
                 System.out.println("Invaide Key Spec Exception from a "
@@ -325,6 +328,7 @@ public class GroupCompInitializationFileInterpreter {
     private void hashTaskRunner() {
         importHashAlgo();
         importGivenHash();
+        checkHash();
     }
     
     /**
@@ -354,6 +358,41 @@ public class GroupCompInitializationFileInterpreter {
         myImportedHashBytes = myImportedHash.getBytes();
     }
     
+ 
+    /**
+     * Calls a private helper to compute a hash for the imported file which it then 
+     *  compares to the hash imported from the file itself, returning TRUE if they 
+     *  are equal and FALSE if they are not.
+     */
+    private void checkHash() {
+        computeFileHash();
+        
+        myTest = MessageDigest.isEqual(myImportedHashBytes, myComputedHashBytes);
+    }
+    
+  // PRIVATE HELPER TO COMPUTE THE HASH OF THE FILE
+    /**
+     * Private helper to compute the hash of the imported file.
+     */
+    private void computeFileHash() {
+        try {
+            myImportedHashMsgDigest = MessageDigest.getInstance("SHA-256");
+//            myImportedHashMsgDigest = MessageDigest.getInstance(myHashAlgo);
+            
+            final int totCnt = myRawData.length - 1;
+            for (int i = 0; i < totCnt; i++) {
+                myImportedHashMsgDigest.update(myRawData[i].getBytes());
+            } // END for LOOP
+            
+            myComputedHashBytes = myImportedHashMsgDigest.digest();
+        } catch (final NoSuchAlgorithmException exception) {
+            System.out.println("No Such Algrogristm Exception for a "
+                            + "CRYPTOGRAPHIC ALGORITHM " 
+                            + exception.getMessage());
+        } // END try/catch BLOCK
+        
+    } // END computeFileHash() PRIVATE HELPER METHOD
+
     
     
     
