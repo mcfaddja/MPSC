@@ -312,12 +312,26 @@ public class GroupCompInitializationFileInterpreter {
         importGivenHash();
     }
     
+    /**
+     * Private helper method for the CONSTRUCTOR.  This method is called by 
+     *  hashTaskRunner(), private helper method which is directly called 
+     *  by the CONSTRUCTOR.  This method, importHashAlgo(), imports and stores 
+     *  the String holding the hash algorithm used to generate the file hash 
+     *  stored in the file.
+     */
     private void importHashAlgo() {
         int tempCnt = 4 + 3 * myGrpSize;
         
         myHashAlgo = myRawData[tempCnt];
     }
     
+    /**
+     * Private helper method for the CONSTRUCTOR.  This method is called by 
+     *  hashTaskRunner(), private helper method which is directly called 
+     *  by the CONSTRUCTOR.  This method, importGivenHash(), imports the file 
+     *  hash supplied by the file into a String variable and then converts that 
+     *  String variable to a byte array.
+     */
     private void importGivenHash() {
         int tempCnt = 4 + 3 * myGrpSize;
         myImportedHash = myRawData[tempCnt + 1];
