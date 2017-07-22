@@ -34,10 +34,22 @@ public class GroupCompInitializationFileInterpreter {
     /** String constant for the IP address error message. */
     private static final String IP_ERR = "IP Address Error at index ";
     
+    /** 
+     * Int constant for holding number of lines of info for each player
+     *  in the imported raw data from the file.
+     */
+    private static final int LNS_PER_PLYR = 3;
+    
+    /** String constant holding the String identifier for the RSA cryptographic algorithm. */
+    private static final String RSA_NAME = "RSA";
+    
     
 // CLASS VARIABLES
     /** String with the name of the file to be read and interpreted. */
     private final String myFileName;
+    
+    /** Instance of the GeneralFileReader class to read the raw file data. */
+    private GeneralFileReader myGenReader;
     
     /** String array with the raw data read in from the file. */
     private final String[] myRawData;
@@ -94,8 +106,7 @@ public class GroupCompInitializationFileInterpreter {
     /** Byte Array holding the hash read in from the file. */
     private byte[] myComputedHashBytes;
     
-    /** Instance of the GeneralFileReader class to read the raw file data. */
-    final GeneralFileReader myGenReader;
+    
     
     
     
@@ -145,7 +156,7 @@ public class GroupCompInitializationFileInterpreter {
         final String temp = myRawData[2];
         myGrpCompInitKey = new BigInteger(temp);
         
-        myGrpSize = Integer.parseInt(myRawData[3]);
+        myGrpSize = Integer.parseInt(myRawData[LNS_PER_PLYR]);
         
         loadPlyrData2D();
         loadPlyrUIDs();
@@ -164,11 +175,11 @@ public class GroupCompInitializationFileInterpreter {
      *  group.
      */
     private void loadPlyrData2D() {
-        myPlyrsNinfo = new String[myGrpSize][3];
+        myPlyrsNinfo = new String[myGrpSize][LNS_PER_PLYR];
         
         for (int i = 0; i < myGrpSize; i++) {
-            for (int j = 0; j < 3; j++) {
-                myPlyrsNinfo[i][j] = myRawData[LIST_START + i*3 + j];
+            for (int j = 0; j < LNS_PER_PLYR; j++) {
+                myPlyrsNinfo[i][j] = myRawData[LIST_START + i * LNS_PER_PLYR + j];
             } // END for LOOP (INDEX j)
         } // END for LOOP (INDEX i)
     } // END loadPlyrData2D() PRIVATE HELPER METHOD
@@ -213,8 +224,8 @@ public class GroupCompInitializationFileInterpreter {
             
             try {
                 myPlyrsAddrs[i] = InetAddress.getByName(myPlyrsNinfo[i][1]);
-            } catch (UnknownHostException e) {
-                System.out.println(IP_ERR + i + e.getMessage());
+            } catch (final UnknownHostException exception) {
+                System.out.println(IP_ERR + i + exception.getMessage());
             } // END try/catch BLOCK
             
         } // END for LOOP
@@ -259,10 +270,10 @@ public class GroupCompInitializationFileInterpreter {
      */
     private void makePubKeys() {
         // Get size of byte arrays with encoded public keys
-        int tempSize = myPlyrPubKeyBytes.get(0).length;
+        final int tempSize = myPlyrPubKeyBytes.get(0).length;
         
         // Create a 2D byte array to hold the keys of all players [plyr][key]
-        byte[][] tempByteKeyArray = new byte[myGrpSize][tempSize];
+        final byte[][] tempByteKeyArray = new byte[myGrpSize][tempSize];
         // Covert imported player encoded public keys from Strings 
         //      and load into "tempByteKeyArray" for later use and conversion.
         for (int i = 0; i < myGrpSize; i++) {
@@ -275,31 +286,28 @@ public class GroupCompInitializationFileInterpreter {
         // Load the arrays for the public keys and signatures of each player
         for (int i = 0; i < myGrpSize; i++) {
             // Temporary KeyFactories and X509EncodedKeySpec variables
-            KeyFactory tempKeyFactory;
-            X509EncodedKeySpec tempKeySpec;
+            final KeyFactory tempKeyFactory;
+            final X509EncodedKeySpec tempKeySpec;
             
             try {
-                tempKeyFactory = KeyFactory.getInstance("RSA");
+                tempKeyFactory = KeyFactory.getInstance(RSA_NAME);
                 tempKeySpec = new X509EncodedKeySpec(tempByteKeyArray[i]);
                 
                 myPlyrPubKeys[i] = tempKeyFactory.generatePublic(tempKeySpec);
-                myPlyrSigs[i] = Signature.getInstance("RSA");
+                myPlyrSigs[i] = Signature.getInstance(RSA_NAME);
                 myPlyrSigs[i].initVerify(myPlyrPubKeys[i]);
-            } // END try BLOCK
-            catch (NoSuchAlgorithmException theException1) {
+            } catch (final NoSuchAlgorithmException exception1) {
                 System.out.println("No Such Algrogristm Exception for a "
                                         + "CRYPTOGRAPHIC ALGORITHM " 
-                                        + theException1.getMessage());
-            } // END THIRD catch BLOCK
-            catch (InvalidKeySpecException theException2) {
+                                        + exception1.getMessage());
+            } catch (final InvalidKeySpecException exception2) {
                 System.out.println("Invaide Key Spec Exception from a "
                                         + "X509EncodedKeySpec KEY SPEC " 
-                                        + theException2.getMessage());
-            } // END SECOND catch BLOCK
-            catch (InvalidKeyException theException3) {
+                                        + exception2.getMessage());
+            } catch (final InvalidKeyException exception3) {
                 System.out.println("Invaide Key Exception from a "
                                         + "PUBLIC KEY KEY " 
-                                        + theException3.getMessage());
+                                        + exception3.getMessage());
             } // END THIRD catch BLOCK
             // END try/catch BLOCK
         } // END SECOND for LOOP IN METHOD
@@ -327,7 +335,7 @@ public class GroupCompInitializationFileInterpreter {
      *  stored in the file.
      */
     private void importHashAlgo() {
-        int tempCnt = 4 + 3 * myGrpSize;
+        final int tempCnt = myRawData.length - 1 - 1;
         
         myHashAlgo = myRawData[tempCnt];
     }
@@ -340,7 +348,7 @@ public class GroupCompInitializationFileInterpreter {
      *  String variable to a byte array.
      */
     private void importGivenHash() {
-        int tempCnt = 4 + 3 * myGrpSize;
+        final int tempCnt = myRawData.length - 1;
         myImportedHash = myRawData[tempCnt + 1];
         
         myImportedHashBytes = myImportedHash.getBytes();

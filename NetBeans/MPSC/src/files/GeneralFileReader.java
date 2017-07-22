@@ -69,8 +69,8 @@ public class GeneralFileReader {
             
             in.close();
             aReader.close();
-        } catch (final IOException theException) {
-            System.out.println("IO input error" + theException.getMessage());
+        } catch (final IOException exception) {
+            System.out.println("IO input error" + exception.getMessage());
         } // END try/catch BLOCK
     } // END readIt() METHOD
     

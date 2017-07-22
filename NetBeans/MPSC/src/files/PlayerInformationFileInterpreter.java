@@ -19,6 +19,49 @@ import java.math.BigInteger;
  */
 public class PlayerInformationFileInterpreter {
     
+// CLASS CONSTANTS
+    /** 
+     * Constant int to hold the index, of the line in the imported data, where the 
+     *  player's UID is stored. 
+     */
+    private static final int UID_IND = 0;
+    
+    /** 
+     * Constant int to hold the index, of the line in the imported data, where the 
+     *  player's public key file name is stored. 
+     */
+    private static final int PUB_KEY_FILE_IND = 1;
+    
+    /** 
+     * Constant int to hold the index, of the line in the imported data, where the 
+     *  algorithm used to generate the player's public key is stored.
+     */
+    private static final int PUB_KEY_ALGO_IND = 2;
+    
+    /** 
+     * Constant int to hold the index, of the line in the imported data, where the 
+     *  player's private key file name is stored. 
+     */
+    private static final int PVT_KEY_FILE_IND = 3;
+    
+    /** 
+     * Constant int to hold the index, of the line in the imported data, where the 
+     *  algorithm used to generate the player's private key is stored.
+     */
+    private static final int PVT_KEY_ALGO_IND = 4;
+    
+    /** 
+     * Constant int to hold the index, of the line in the imported data, where the 
+     *  algorithm used to generate the imported hash of the player's file is stored.
+     */
+    private static final int HASH_ALGO_IND = 5;
+
+    /** 
+     * Constant int to hold the index, of the line in the imported data, where the 
+     *  imported hash of the file data is stored in the file.
+     */
+    private static final int IMPTD_HASH_IND = 6;
+    
     /** String with the name of the file to be read and interpreted. */
     private final String myFileName;
     
@@ -47,7 +90,7 @@ public class PlayerInformationFileInterpreter {
     private String myImportedHash;
     
     /** Instance of the GeneralFileReader class to read the raw file data. */
-    final GeneralFileReader myGenReader;
+    private GeneralFileReader myGenReader;
     
     
     
@@ -77,17 +120,17 @@ public class PlayerInformationFileInterpreter {
     private void readAndParseThem() {
         //final long tempLong = Integer.parseInt(myRawData[0]);
         //myUID = BigInteger.valueOf(tempLong);
-        final String temp = myRawData[0];
+        final String temp = myRawData[UID_IND];
         myUID = new BigInteger(temp);
         
-        myPubKeyFileName = myRawData[1];
-        myPubKeyAlgo = myRawData[2];
+        myPubKeyFileName = myRawData[PUB_KEY_FILE_IND];
+        myPubKeyAlgo = myRawData[PUB_KEY_ALGO_IND];
         
-        myPvtKeyFileName = myRawData[3];
-        myPvtKeyAlgo = myRawData[4];
+        myPvtKeyFileName = myRawData[PVT_KEY_FILE_IND];
+        myPvtKeyAlgo = myRawData[PVT_KEY_ALGO_IND];
         
-        myHashAlgo = myRawData[5];
-        myImportedHash = myRawData[6];
+        myHashAlgo = myRawData[HASH_ALGO_IND];
+        myImportedHash = myRawData[IMPTD_HASH_IND];
     } // END readAndParseThem() PRIVATE HELPER METHOD
     
     
