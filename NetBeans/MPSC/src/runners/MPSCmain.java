@@ -1,20 +1,32 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Part of a program to implement a Multi-Party Secure Computing protocol.
  */
 package runners;
 
 /**
+ * Utility class to provide a MAIN method to run the MPSC software.
  *
- * @author jamster
+ * @author Jonathan McFadden (mcfaddja@uw.edu)
+ * @version 0.1.2
  */
-public class MPSCmain {
+public final class MPSCmain {
 
+// CONSTRUCTOR(S)
     /**
-     * @param args the command line arguments
+     * Private constructor for the MPSCmain class to prevent instantiation.
      */
-    public static void main(String[] args) {
+    private MPSCmain() {
+        // Private Constructor
+    }
+    
+    
+// PUBLIC METHODS
+    /**
+     * Main Method to run MPSC software.
+     * 
+     * @param theArgs Passed command line arguments
+     */
+    public static void main(final String[] theArgs) {
         // TODO code application logic here
     }
     
