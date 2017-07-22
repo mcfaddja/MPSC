@@ -16,9 +16,6 @@ import java.security.Signature;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -26,6 +23,7 @@ import java.util.logging.Logger;
  */
 public class GroupCompInitializationFileInterpreter {
     
+// CLASS CONSTANTS
     /** 
      * Integer constant representing the array index where the list of player 
      *  information starts in the input file.
@@ -36,7 +34,7 @@ public class GroupCompInitializationFileInterpreter {
     private static final String IP_ERR = "IP Address Error at index ";
     
     
-    
+// CLASS VARIABLES
     /** String with the name of the file to be read and interpreted. */
     private final String myFileName;
     
@@ -73,13 +71,7 @@ public class GroupCompInitializationFileInterpreter {
      *  public keys of all the players as instances of the "PublicKey" class.
      */
     private ArrayList<byte[]> myPlyrPubKeyBytes;
-    
-//    /** 
-//     * Array of KeyFactory objects to help import, convert, and store the 
-//     *  public keys of all the players as instances of the "PublicKey" class.
-//     */
-//    private KeyFactory[] myKeyFactories;
-    
+
     /** Array of Public Key objects holding the public keys of every player. */
     private PublicKey[] myPlyrPubKeys;
     
@@ -97,7 +89,7 @@ public class GroupCompInitializationFileInterpreter {
     
     
     
-    
+// CONSTRUCTOR(S)
     public GroupCompInitializationFileInterpreter(final String theFileName) {
         myFileName = theFileName;
         
@@ -107,8 +99,11 @@ public class GroupCompInitializationFileInterpreter {
         readAndParseThem();
         loadPlyrKeysTasks();
     }
-
     
+    
+// PRIVATE HELPER METHODS FOR THE CONSTRUCTOR
+    
+  // PRIVATE HELPERS FOR IMPORTING RAW PLAYER DATA
     /**
      * Private helper method for the CONSTRUCTOR.  This method is called 
      *  directly by the CONSTRUCTOR so that this method can import the String 
@@ -207,13 +202,7 @@ public class GroupCompInitializationFileInterpreter {
         } // END for LOOP
     } // END loadPlyrAddrs() PRIVATE HELPER METHOD
 
-    /**
-     * Private helper method for the CONSTRUCTOR.  This method is called 
-     *  directly by the CONSTRUCTOR so that this method itself can call a 
-     *  series of additional private helper methods for performing tasks 
-     *  related to the importation, generation, and storage of cryptographic 
-     *  keys for each player.
-     */
+  // PRIVATE HELPERS RELATED TO PLAYER KEYS
     private void loadPlyrKeysTasks() {
         makeByteArrays();
         makePubKeys();
@@ -226,7 +215,6 @@ public class GroupCompInitializationFileInterpreter {
             myPlyrPubKeyBytes.add(myPlyrsNinfo[i][2].getBytes());
         }
     } // END makeByteArrays() PRIVATE HELPER METHOD
-    
     
     private void makePubKeys() {
         // Get size of byte arrays with encoded public keys
