@@ -10,6 +10,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.KeyFactory;
 import java.security.PublicKey;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -206,8 +207,17 @@ public class GroupCompInitializationFileInterpreter {
      *  keys for each player.
      */
     private void loadPlyrKeysTasks() {
-        
+        createByteArrays();
     }
+    
+    private void createByteArrays() {
+        myPlyrPubKeyBytes = new ArrayList<byte[]>();
+        
+        for (int i = 0; i < myGrpSize; i++) {
+            myPlyrPubKeyBytes.add(myPlyrsNinfo[i][2].getBytes());
+        }
+    }
+    
     
     
     
